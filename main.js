@@ -39,44 +39,50 @@ const pAequorFactor = (specimenNum, dna) => {
     console.log('Specimen 1 and Specimen 2 have ' + perc +'% in common.');
     },
   willLikelySurvive(){
+    //const cOrG = this.dna.filter(el => el === "C" || el === "G");
+    // return cOrG.length / this.dna.length >= 0.6;
     let countC = 0;
     let countG = 0;
-    for (let a = 0; a < dna.length ; a++){
-      if (dna[a] === 'C'){
+    for (let a = 0; a < this.dna.length ; a++){
+      if (this.dna[a] === 'C'){
         countC++;
-      } else if (dna[a] === 'G'){
+      } else if (this.dna[a] === 'G'){
         countG++;
       };
-      
     };
     const percC = Math.round((countC / 15) * 100);
     const percG = Math.round((countG / 15 ) * 100);
-    console.log('Percentage C: ', percC, ' Percentage G: ', percG);
+    //console.log('Percentage C: ', percC, ' Percentage G: ', percG);
     if (percC > 60 || percG > 60){
-      return 'pAequor will survive';
+      return true;
     } else {
-      return 'pAequor will not survive';
+      return false;
     };
-  }
+  },
   }
 };
 
-const pAequor = pAequorFactor(1, mockUpStrand()); // creates an object instance of pAequor
-pAequor.mutate(); // mutates the created pAequor sample
+//const pAequor = pAequorFactor(1, mockUpStrand()); // creates an object instance of pAequor
+//pAequor.mutate(); // mutates the created pAequor sample
 
-console.log('Will pAequor survive?: ' + pAequor.willLikelySurvive()); // uses the willLikelySurvive method to indicate whether the specimen has 60% C or G bases and can therefore survive
+//console.log('Will pAequor survive?: ' + pAequor.willLikelySurvive()); // uses the willLikelySurvive method to indicate whether the specimen has 60% C or G bases and can therefore survive
 
 // the following lines of code will create an array of thirty specimens
 const specimens = [];
+let idCount = 1;
 
-function createSpecimen(){
-  for (let a=0 ; a < 30; a++){
-    const pAequor = pAequorFactor(a, mockUpStrand());
-    pAequor.mutate();
-    specimens.push(pAequor.dna);
-  }
-};
-createSpecimen();
+//function createSpecimen(){
+  while (specimens.length < 30){
+    let pAequor = pAequorFactor(idCount, mockUpStrand());
+    if (pAequor.willLikelySurvive()){
+    specimens.push(pAequor);
+    }
+    idCount++;
+  }  
+ 
+//createSpecimen();
+
+console.log(specimens);
 
 //uses the created object pAequor and compares it with a DNA specimen from the specimens array. The parameter passed in is the index number for the specimens array
-pAequor.compareDNA(3);
+//pAequor.compareDNA(3);
